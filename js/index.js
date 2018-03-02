@@ -3,6 +3,7 @@ class App extends React.Component {
     super(props);
     this.handleYMChange = this.handleYMChange.bind(this);
     this.handleYMSubmit = this.handleYMSubmit.bind(this);
+    this.handleArticleClick = this.handleArticleClick.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     const currentDate = new Date();
     this.state = {
@@ -35,6 +36,9 @@ class App extends React.Component {
   onError(error) {
     throw error;
   }
+  handleArticleClick(selectedArticle) {
+    this.setState(() => ({ selectedArticle }));
+  }
   render() {
     const start = (this.state.pageNumber - 1) * this.state.pageSize;
     const end = start + this.state.pageSize;
@@ -52,10 +56,11 @@ class App extends React.Component {
           <section id="top">TOP</section>
           <section id="center">
             <Articles
+              selectedArticle={this.state.selectedArticle}
               articlesToShow={articlesToShow}
               handleArticleClick={this.handleArticleClick}
             />
-            <ArticleDetails />
+            <ArticleDetails selectedArticle={this.state.selectedArticle} />
           </section>
           <section id="bottom">BOTTOM</section>        
         </main>
@@ -100,14 +105,19 @@ class FindArticles extends React.Component {
     this.props.handleYMSubmit();
   }
   render() {
+    // creating year-month string from the selectedYear array
+    // actually month decreased by 1 because of potential problem when switching months in real time
     const selectedYear = this.props.yearMonth[0].toString();
     let selectedMonth = this.props.yearMonth[1].toString();
     selectedMonth = selectedMonth.length > 1 ? selectedMonth : `0${selectedMonth}`;
     const value = `${selectedYear}-${selectedMonth}`;
+
+    // defining max value for input month field
     const currentYear = new Date().getFullYear();
     let currentMonth = new Date().getMonth() + 1;
     currentMonth = currentMonth.length > 1 ? currentMonth : `0${currentMonth}`;
     const max = `${currentYear}-${currentMonth}`;
+
     return (
       <form className="header-form" onSubmit={this.handleYMSubmit}>
         <input type="month" value={value} min="1851-01" max={max} onChange={this.handleYMChange} />
@@ -121,12 +131,15 @@ class FindArticles extends React.Component {
 class Articles extends React.Component {
   render() {
     return (
-      <aside id="gallery">
+      <aside id="gallery" className="gutters">
        { 
           this.props.articlesToShow.map((article) => {
+            const visible = !!Object.keys(this.props.selectedArticle).length && this.props.selectedArticle._id === article._id;
             return (
               <Article
                 key={article._id}
+                visible={visible}
+                handleArticleClick={this.props.handleArticleClick}
                 article={article}
                 url={article.web_url}
                 date={article.pub_date}
@@ -145,14 +158,15 @@ class Article extends React.Component {
     this.onSuccess = this.onSuccess.bind(this);
     this.onError = this.onError.bind(this);
     this.onSuccessGoogle = this.onSuccessGoogle.bind(this);
+    this.handleArticleClick = this.handleArticleClick.bind(this);
     this.state = {
       linkPreview: {}
     };
   }
   componentDidMount() {
     const apiKey = '5a8d5223dca2776423c4f56557c4307b284e358df5652';
-    const url = `https://api.linkpreview.net/?key=${apiKey}&q=${this.props.url}`;
-    // const url = 'https://api.linkpreview.net/?key=123456&q=https://www.google.com';
+    const url = `http://api.linkpreview.net/?key=${apiKey}&q=${this.props.url}`;
+    // const url = 'http://api.linkpreview.net/?key=123456&q=https://www.google.com';
     $.ajax({
       url,
       success: this.onSuccess,
@@ -168,7 +182,7 @@ class Article extends React.Component {
     this.setState(() => ({ linkPreview }));
   } 
   onError() {
-    const url = 'https://api.linkpreview.net/?key=123456&q=https://www.google.com';
+    const url = 'http://api.linkpreview.net/?key=123456&q=https://www.google.com';
     $.ajax({
       url,
       success: this.onSuccessGoogle,
@@ -177,6 +191,10 @@ class Article extends React.Component {
   }
   onErrorGoogle(error) {
     throw error;
+  }
+  handleArticleClick() {
+    const selectedArticle = this.props.article;
+    this.props.handleArticleClick(selectedArticle);
   }
   render() {
     const article = this.props.article;
@@ -190,6 +208,21 @@ class Article extends React.Component {
               <p>{this.state.linkPreview.description}</p>
             </div>
           </div>
+          <div className="article-links"><span>Bookmark</span><a href={this.props.url} target="_blank">Go to URL...</a></div>
+          { this.props.visible && 
+            <div className="article-details display-state">
+              <h3>Details</h3>
+              <ul>
+                <li><span>Source:</span><span> {article.source} </span></li>
+                <li><span>Headline:</span><span> {article.headline.main} </span></li>
+                <li><span>Snippet:</span><span> {article.snippet} </span></li>
+                {
+                  !!article.byline && <li><span>Author:</span><span> {article.byline.original} </span></li>
+                }
+                <li><span>Word Count:</span><span> {article.word_count} </span></li>
+              </ul>
+            </div>
+          }
         </div>
       </div>
     );
@@ -203,6 +236,18 @@ class ArticleDetails extends React.Component {
       <aside id="details" className="disabled" >
         <div>
           <h3>Article Details</h3>
+          {!!Object.keys(article).length &&
+          <ul>
+            <li><span>Source:</span> {article.source}</li>
+            <li><span>Headline:</span> {article.headline.main}</li>
+            <li><span>Snippet:</span> {article.snippet}</li>
+            {
+              !!article.byline &&
+              <li><span>Author:</span> {article.byline.original}</li>
+            }
+            <li><span>Word Count:</span> {article.word_count}</li>
+          </ul>
+          }
         </div>
       </aside>
     );
