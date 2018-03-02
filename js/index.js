@@ -21,10 +21,32 @@ class App extends React.Component {
 class Header extends React.Component {
   render() {
     return (
-      <header id="header">Header Component</header>
+      <header id="header">
+        <h1><span></span></h1>
+        <FindArticles />
+      </header>
     );
   }
 }
+
+class FindArticles extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleYMChange = this.handleYMChange.bind(this);
+  }
+  handleYMChange(e) {
+    const yearMonthStr = e.target.value;
+    console.log(yearMonthStr);
+  }
+  render() {
+    return (
+      <form className="header-form">
+        <input type="month" onChange={this.handleYMChange} />
+        <input type="submit" value="Find" />
+      </form>
+    );
+  }
+};
 
 class Articles extends React.Component {
   render() {
