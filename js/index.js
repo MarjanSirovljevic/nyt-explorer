@@ -1,8 +1,20 @@
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleYMChange = this.handleYMChange.bind(this);
+    this.state = {
+      yearMonth: []
+    };
+  }
+  handleYMChange(yearMonthStr) {
+    const yearMonth = yearMonthStr.split('-');
+    this.setState(() => ({ yearMonth }));
+  }
   render() {
+    console.log(this.state.yearMonth);
     const jsx = (
       <div id="page">
-        <Header />
+        <Header handleYMChange={this.handleYMChange}/>
         <main id="main">
           <section id="top">TOP</section>
           <section id="center">
@@ -23,7 +35,9 @@ class Header extends React.Component {
     return (
       <header id="header">
         <h1><span></span></h1>
-        <FindArticles />
+        <FindArticles
+          handleYMChange={this.props.handleYMChange}
+        />
       </header>
     );
   }
@@ -36,7 +50,7 @@ class FindArticles extends React.Component {
   }
   handleYMChange(e) {
     const yearMonthStr = e.target.value;
-    console.log(yearMonthStr);
+    this.props.handleYMChange(yearMonthStr);
   }
   render() {
     return (
