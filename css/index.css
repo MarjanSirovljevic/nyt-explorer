@@ -19,6 +19,18 @@ body {
   flex: 0 1 0%;
   background: palegreen;
 }
+/* medium devices */
+@media (min-width: 768px) {
+  #header { width: 720px; margin: 0 auto; }
+}
+/* large devices */
+@media (min-width: 992px) {
+  #header { width: 960px; margin: 0 auto; }
+}
+/* extra large devices */
+@media (min-width: 1200px) {
+  #header { width: 1140px; margin: 0 auto; }
+}
 
 /* =========================================( M A I N )========================================= */
 
@@ -27,12 +39,41 @@ body {
   display: flex;
   flex-direction: column;
 }
+/* medium devices */
+@media (min-width: 768px) {
+  #main { width: 720px; margin: 0 auto; }
+}
+/* large devices */
+@media (min-width: 992px) {
+  #main { width: 960px; margin: 0 auto;}
+}
+/* extra large devices */
+@media (min-width: 1200px) {
+  #main { width: 1140px; margin: 0 auto;}
+}
 
 /* =========================( main - TOP )========================== */
 
 #top {
   flex: 0 1 0%;
   background: lightcoral;
+}
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+/* medium devices */
+@media (min-width: 768px) {
+  #footer { width: 720px; margin: 0 auto; }
+}
+/* large devices */
+@media (min-width: 992px) {
+  #footer { width: 960px; margin: 0 auto;}
+}
+/* extra large devices */
+@media (min-width: 1200px) {
+  #footer { width: 1140px; margin: 0 auto;}
 }
 
 /* =========================( main - CENTER )======================= */
@@ -92,7 +133,3 @@ body {
   flex: 0 1 0%;
   background: palegoldenrod;
 }
-
-
-
-
