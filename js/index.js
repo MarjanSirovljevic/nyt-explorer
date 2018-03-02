@@ -71,7 +71,7 @@ class Header extends React.Component {
   render() {
     return (
       <header id="header">
-        <h1>NYTE</h1>
+        <h1><span></span></h1>
         <FindArticles
           yearMonth={this.props.yearMonth}
           handleYMChange={this.props.handleYMChange}
