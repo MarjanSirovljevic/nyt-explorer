@@ -209,11 +209,13 @@ class ArticleDetails extends React.Component {
   }
 }
 
-
 class Footer extends React.Component {
   render() {
     return (
-      <footer id="footer">Footer Component</footer>
+      <footer id="footer">
+        <p>PZORG Demo Project - NYT Explorer</p>
+        <p><span>Created By: </span><span>Marjan Sirovljević</span></p>
+      </footer>
     );
   }
 }
