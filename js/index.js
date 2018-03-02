@@ -151,8 +151,8 @@ class Article extends React.Component {
   }
   componentDidMount() {
     const apiKey = '5a8d5223dca2776423c4f56557c4307b284e358df5652';
-    const url = `http://api.linkpreview.net/?key=${apiKey}&q=${this.props.url}`;
-    // const url = 'http://api.linkpreview.net/?key=123456&q=https://www.google.com';
+    const url = `https://api.linkpreview.net/?key=${apiKey}&q=${this.props.url}`;
+    // const url = 'https://api.linkpreview.net/?key=123456&q=https://www.google.com';
     $.ajax({
       url,
       success: this.onSuccess,
@@ -168,7 +168,7 @@ class Article extends React.Component {
     this.setState(() => ({ linkPreview }));
   } 
   onError() {
-    const url = 'http://api.linkpreview.net/?key=123456&q=https://www.google.com';
+    const url = 'https://api.linkpreview.net/?key=123456&q=https://www.google.com';
     $.ajax({
       url,
       success: this.onSuccessGoogle,
