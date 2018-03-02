@@ -1,4 +1,4 @@
-class App extends React.Component {
+﻿class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleYMChange = this.handleYMChange.bind(this);
@@ -73,7 +73,7 @@ class App extends React.Component {
     const jsxProgress = (
       <div id="page">
         <div id="progress">
-          <img src=".././images/loader.gif" />
+          <img src="../images/loader.gif" />
         </div>
       </div>
     );
