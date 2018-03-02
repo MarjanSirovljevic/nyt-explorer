@@ -112,12 +112,8 @@ button:disabled, input[type="submit"]:disabled { cursor: default; opacity: 0.25;
 
 /* =========================( main - CENTER )======================= */
 
-#center {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: red;
-}
+#center { flex: 1; display: flex; flex-direction: column; margin: 10px; }
+/* medium devices */
 @media (min-width: 768px) {
   #center {
     flex-direction: row;
@@ -126,33 +122,124 @@ button:disabled, input[type="submit"]:disabled { cursor: default; opacity: 0.25;
 
 /* ===========( main - CENTER/GALLERY )========== */
 
-#gallery {
-  background: paleturquoise;
-  flex: 1;
+#gallery { display: flex; flex: 1 1 75%; flex-direction: column; }
+#gallery > .article { flex: 0 1 0%; }
+#gallery > .article > .article-wrapper {
+  background: #fcfcfc;
+  box-shadow: 0 0 5px rgba(150,150,150,0.5);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
 }
+#gallery > .article > .article-wrapper > .article-display { flex: 1; }
+#gallery > .article > .article-wrapper > .article-display:hover { cursor: pointer; }
+#gallery > .article > .article-wrapper > .article-display > img { width: 100%; }
+#gallery > .article > .article-wrapper > .article-display > div { padding: 0 10px 10px 10px; }
+#gallery > .article > .article-wrapper > .article-display > div > h3 { font-size: 14px; font-weight: 700; margin: 5px 0 0 0; }
+#gallery > .article > .article-wrapper > .article-display > div > p {
+  color: #555555;
+  font-size: 13px;
+  font-weight: 300;
+  margin: 5px 0 0 0;
+}
+#gallery > .article > .article-wrapper > .article-links {
+  align-items: center;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex: 0 1 25px;
+  font-size: 14px;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+#gallery > .article > .article-wrapper > .article-links > a {
+  color: #49c5b6;
+  font-style: italic;
+  text-decoration: none;
+}
+#gallery > .article > .article-wrapper > .article-details {
+  border-top: 1px solid #f0f0f0;
+  flex: 0 1 auto;
+  padding: 10px;
+}
+#gallery > .article > .article-wrapper > .article-details > h3 {
+  font-size: 14px;
+  margin: 0;
+}
+#gallery > .article > .article-wrapper > .article-details > ul {
+  font-size: 13px;
+  list-style-type: none;
+  margin: 0;
+  margin-top: 5px;
+  padding: 0;
+}
+#gallery > .article > .article-wrapper > .article-details > ul > li { display: flex; }
+#gallery > .article > .article-wrapper > .article-details > ul > li > span:nth-child(1) {
+  color: #49c5b6;
+  font-weight: 500;
+  flex: 0 0 80px;
+}
+#gallery > .article > .article-wrapper > .article-details > ul > li > span:nth-child(2) { flex: 1; }
+.gutters { margin: -10px 0 0 0; }
+.gutters > div { padding: 10px 0 0 0; }
+
+/* medium devices */
 @media (min-width: 768px) {
   #gallery {
-    flex: 1 1 75%;
+    align-content: flex-start;
+    align-items: stretch;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
+  #gallery > .article { flex: 0 1 50%; max-height: 85%; }
+  #gallery > .article > .article-wrapper > .display-state { display: none; }
+  .gutters { margin: -10px 10px 0 -10px; }
+  .gutters > div { padding: 10px 0 0 10px; }
 }
+/* large devices */
+@media (min-width: 992px) {
+  #gallery > .article { flex: 0 1 33.3333%; }
+}
+/* extra large devices */
+@media (min-width: 1200px) {
+  #gallery > .article { flex: 0 1 25%; }
+}
+/* standard desktop devices */
+@media (min-height: 650px) {
+  #gallery > .article { max-height: 50%; }
+} 
 
 /* ===========( main - CENTER/DETAILS )========== */
 
 #details {
-  background: palevioletred;
-  flex: 1;
+  background: #fcfcfc;
+  box-shadow: 0 0 5px rgba(150,150,150,0.5);
+  flex: 0 1 25%;
+  font-family: 'Roboto', sans-serif; 
+  overflow: auto;
+  padding: 10px;
+  text-align: left;
+  white-space: wrap;
 }
-.disabled {
-  display: none;
-}
+
+#details > div { font-size: 14px; }
+#details > div > h3 { margin: 0; padding: 15px 0; }
+.disabled { display: none; }
+#details > div > ul { list-style-type: none; margin: 0; padding: 0; }
+#details > div > ul > li { padding: 5px 0; }
+#details > div > ul > li > span { color: #49c5b6; font-weight: 700; }
+
+/* medium devices */
 @media (min-width: 768px) {
-  .disabled {
-    display: flex;
-  }
-  #details {
-    flex: 0 1 240px;
-  }
+  .disabled { display: flex; }
+  #details { flex: 0 1 240px; }
 }
+/* standard desktop devices */
+@media (min-height: 650px) {
+  #details > div { font-size: 16px; }
+} 
 
 /* =========================( main - BOTTOM )======================= */
 
