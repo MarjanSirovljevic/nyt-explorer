@@ -1,4 +1,4 @@
-﻿class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleYMChange = this.handleYMChange.bind(this);
@@ -39,13 +39,16 @@
   handleArticleClick(selectedArticle) {
     this.setState(() => ({ selectedArticle }));
   }
+  componentDidMount() {
+    this.handleYMSubmit();
+  }
   render() {
     const start = (this.state.pageNumber - 1) * this.state.pageSize;
     const end = start + this.state.pageSize;
     const articles = this.state.fetchedArticles;
     const totalPages = Math.ceil(articles.length / this.state.pageSize);
     const articlesToShow = articles.slice(start, end);
-    const jsx = (
+    const jsxAjax = (
       <div id="page">
         <Header
           yearMonth={this.state.yearMonth}
@@ -67,8 +70,15 @@
         <Footer />
       </div>
     );
+    const jsxProgress = (
+      <div id="page">
+        <div id="progress">
+          <img src=".././images/loader.gif" />
+        </div>
+      </div>
+    );
 
-    return jsx;
+    return this.state.fetchedArticles.length > 0 ? jsxAjax : jsxProgress;
   }
 }
 
@@ -120,7 +130,7 @@ class FindArticles extends React.Component {
 
     return (
       <form className="header-form" onSubmit={this.handleYMSubmit}>
-        <input type="month" value={value} min="1851-01" max={max} onChange={this.handleYMChange} />
+        <input type="month" value={value} min="1851-09" max={max} onChange={this.handleYMChange} />
         <input type="submit" value="Find" />
       </form>
     );

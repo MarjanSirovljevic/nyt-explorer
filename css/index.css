@@ -12,6 +12,10 @@ button, input[type="submit"] {
 button:hover, input[type="submit"]:hover { cursor: pointer; }
 button:disabled, input[type="submit"]:disabled { cursor: default; opacity: 0.25; }
 
+/* ===================================( P R O G R E S S )======================================= */
+
+#progress { flex: 1; display: flex; justify-content: center; align-items: center; }
+
 /* ======================================( H E A D E R )======================================== */
 
 #header {
