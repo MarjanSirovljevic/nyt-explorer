@@ -1,3 +1,5 @@
+let timeout = null;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -7,6 +9,7 @@ class App extends React.Component {
     this.onSuccess = this.onSuccess.bind(this);
     this.handlePageSizeSelect = this.handlePageSizeSelect.bind(this);
     this.handleSortByChange = this.handleSortByChange.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
     const currentDate = new Date();
     this.state = {
       yearMonth: [currentDate.getFullYear(), currentDate.getMonth()],
@@ -15,6 +18,7 @@ class App extends React.Component {
       pageSize: 4,
       sortBy: 'date',
       asc: true,
+      searchTerm: '',
       selectedArticle: {}
     };
   }
@@ -51,6 +55,9 @@ class App extends React.Component {
     const sortBy = sortValue.split(' ')[0];
     const asc = sortValue.split(' ')[1] === 'asc' ? true : false ;
     this.setState(() => ({ sortBy, asc }));
+  }
+  handleSearchChange(searchTerm) {
+    this.setState(() => ({ searchTerm })); 
   }
   componentDidMount() {
     this.handleYMSubmit();
@@ -104,7 +111,9 @@ class App extends React.Component {
   render() {
     const start = (this.state.pageNumber - 1) * this.state.pageSize;
     const end = start + this.state.pageSize;
-    const articles = this.sortArticles(this.state.fetchedArticles, this.state.sortBy, this.state.asc);
+    const articles = this.sortArticles(this.state.fetchedArticles, this.state.sortBy, this.state.asc).filter((article) => {
+      return article.headline.main.toUpperCase().indexOf(this.state.searchTerm.toUpperCase()) !== -1;
+    });
     const totalPages = Math.ceil(articles.length / this.state.pageSize);
     const articlesToShow = articles.slice(start, end);
     const jsxAjax = (
@@ -121,6 +130,7 @@ class App extends React.Component {
               isAsc={this.state.asc}
               handleSortByChange={this.handleSortByChange}
             />
+            <Search handleSearchChange={this.handleSearchChange} />
             <PageSelect
               pageSize={this.state.pageSize}
               handlePageSizeSelect={this.handlePageSizeSelect}
@@ -407,6 +417,29 @@ class SortBy extends React.Component {
         <option value="title asc">Title &#129049;</option>
         <option value="title desc">Title &#129051;</option>
       </select>
+    );
+  }
+}
+
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+  }
+  handleSearchChange(e) {
+    clearTimeout(timeout);
+    const searchTerm = e.target.value;
+    timeout = setTimeout(() => {
+      this.props.handleSearchChange(searchTerm);
+    } ,500);
+  }
+  render() {
+    return (
+      <input 
+        type="text" 
+        onKeyUp={this.handleSearchChange} 
+        placeholder="Search the title"
+      />
     );
   }
 }
