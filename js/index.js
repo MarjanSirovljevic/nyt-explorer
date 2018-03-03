@@ -12,6 +12,7 @@ class App extends React.Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handlePrevButtonClick = this.handlePrevButtonClick.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+    this.handleGoToPage = this.handleGoToPage.bind(this);
     const currentDate = new Date();
     this.state = {
       yearMonth: [currentDate.getFullYear(), currentDate.getMonth()],
@@ -66,6 +67,9 @@ class App extends React.Component {
   }
   handleNextButtonClick() {
     this.setState((prevState) => ({ pageNumber: prevState.pageNumber + 1 }));
+  }
+  handleGoToPage(pageNumber) {
+    this.setState(() => ({ pageNumber }));
   }
   componentDidMount() {
     this.handleYMSubmit();
@@ -168,6 +172,7 @@ class App extends React.Component {
               totalPages={totalPages}
               handlePrevButtonClick={this.handlePrevButtonClick}
               handleNextButtonClick={this.handleNextButtonClick}
+              handleGoToPage={this.handleGoToPage}
               totalArticles={articles.length}
             />
           </section>        
@@ -480,6 +485,11 @@ class PageNav extends React.Component {
             clickable={this.props.pageNumber < this.props.totalPages}
           />
         </div>
+        <GoToPage
+          handleGoToPage={this.props.handleGoToPage}
+          totalPages={this.props.totalPages}
+          pageNumber={this.props.pageNumber}
+        />
       </div>
     );
   }
@@ -491,6 +501,37 @@ class Pagers extends React.Component {
       <button onClick={this.props.handleButtonClick} disabled={!this.props.clickable}>
         {this.props.buttonName}
       </button>
+    );
+  }
+}
+
+class GoToPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleGoToPage = this.handleGoToPage.bind(this);
+  }
+  handleGoToPage(e) {
+    let pageNumber = parseInt(e.target.value);
+    if( isNaN(pageNumber) ) {
+      return;
+    }
+    if(pageNumber > this.props.totalPages) {
+      pageNumber = this.props.totalPages;
+    }
+    this.props.handleGoToPage(pageNumber);
+  }
+  render() {
+    return (
+      <div>
+        Go to page: 
+        <input
+          type="number"
+          min="1"
+          max={this.props.totalPages}
+          value={this.props.pageNumber}
+          onChange={this.handleGoToPage}
+          disabled={!this.props.totalPages} />
+      </div>
     );
   }
 }
