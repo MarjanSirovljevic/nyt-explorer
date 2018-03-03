@@ -1,10 +1,11 @@
-﻿class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.handleYMChange = this.handleYMChange.bind(this);
     this.handleYMSubmit = this.handleYMSubmit.bind(this);
     this.handleArticleClick = this.handleArticleClick.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
+    this.handlePageSizeSelect = this.handlePageSizeSelect.bind(this);
     const currentDate = new Date();
     this.state = {
       yearMonth: [currentDate.getFullYear(), currentDate.getMonth()],
@@ -39,6 +40,9 @@
   handleArticleClick(selectedArticle) {
     this.setState(() => ({ selectedArticle }));
   }
+  handlePageSizeSelect(pageSize) {
+    this.setState(() => ({ pageSize, pageNumber: 1 }));
+  }
   componentDidMount() {
     this.handleYMSubmit();
   }
@@ -56,7 +60,12 @@
           handleYMSubmit={this.handleYMSubmit}
         />
         <main id="main">
-          <section id="top">TOP</section>
+          <section id="top">
+          <PageSelect
+            pageSize={this.state.pageSize}
+            handlePageSizeSelect={this.handlePageSizeSelect}
+          />
+          </section>
           <section id="center">
             <Articles
               selectedArticle={this.state.selectedArticle}
@@ -136,7 +145,6 @@ class FindArticles extends React.Component {
     );
   }
 };
-
 
 class Articles extends React.Component {
   render() {
@@ -270,6 +278,31 @@ class Footer extends React.Component {
         <p>PZORG Demo Project - NYT Explorer</p>
         <p><span>Created By: </span><span>Marjan Sirovljević</span></p>
       </footer>
+    );
+  }
+}
+
+class PageSelect extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handlePageSizeSelect = this.handlePageSizeSelect.bind(this);
+  }
+  handlePageSizeSelect(e) {
+    const selectedPageSize = parseInt(e.target.value);
+    this.props.handlePageSizeSelect(selectedPageSize);
+  }
+  render() {
+    return (
+      <div>
+        Page Size: 
+        <select className="page-size" value={this.props.pageSize} onChange={this.handlePageSizeSelect}>
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="20">20</option>
+          <option value="40">40</option>
+        </select>
+      </div>
     );
   }
 }
