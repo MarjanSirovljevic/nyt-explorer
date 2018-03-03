@@ -10,6 +10,8 @@ class App extends React.Component {
     this.handlePageSizeSelect = this.handlePageSizeSelect.bind(this);
     this.handleSortByChange = this.handleSortByChange.bind(this);
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handlePrevButtonClick = this.handlePrevButtonClick.bind(this);
+    this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     const currentDate = new Date();
     this.state = {
       yearMonth: [currentDate.getFullYear(), currentDate.getMonth()],
@@ -58,6 +60,12 @@ class App extends React.Component {
   }
   handleSearchChange(searchTerm) {
     this.setState(() => ({ searchTerm })); 
+  }
+  handlePrevButtonClick() {
+    this.setState((prevState) => ({ pageNumber: prevState.pageNumber - 1 }));
+  }
+  handleNextButtonClick() {
+    this.setState((prevState) => ({ pageNumber: prevState.pageNumber + 1 }));
   }
   componentDidMount() {
     this.handleYMSubmit();
@@ -154,7 +162,15 @@ class App extends React.Component {
             />
             <ArticleDetails selectedArticle={this.state.selectedArticle} />
           </section>
-          <section id="bottom">BOTTOM</section>        
+          <section id="bottom">
+            <PageNav
+              pageNumber={this.state.pageNumber}
+              totalPages={totalPages}
+              handlePrevButtonClick={this.handlePrevButtonClick}
+              handleNextButtonClick={this.handleNextButtonClick}
+              totalArticles={articles.length}
+            />
+          </section>        
         </main>
         <Footer />
       </div>
@@ -444,6 +460,37 @@ class Search extends React.Component {
         onKeyUp={this.handleSearchChange} 
         placeholder="Search the title"
       />
+    );
+  }
+}
+
+class PageNav extends React.Component {
+  render() {
+    return (
+      <div className="bottom-cell">
+        <div>
+          <Pagers
+            buttonName="&#129060;"
+            handleButtonClick={this.props.handlePrevButtonClick}
+            clickable={this.props.pageNumber > 1}
+          />
+          <Pagers
+            buttonName="&#129062;"
+            handleButtonClick={this.props.handleNextButtonClick}
+            clickable={this.props.pageNumber < this.props.totalPages}
+          />
+        </div>
+      </div>
+    );
+  }
+}
+
+class Pagers extends React.Component {
+  render() {
+    return(
+      <button onClick={this.props.handleButtonClick} disabled={!this.props.clickable}>
+        {this.props.buttonName}
+      </button>
     );
   }
 }
