@@ -73,7 +73,7 @@
     const jsxProgress = (
       <div id="page">
         <div id="progress">
-          <img src="../images/loader.gif" />
+          <img src="./images/loader.gif" />
         </div>
       </div>
     );
