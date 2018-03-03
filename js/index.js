@@ -204,20 +204,16 @@ class App extends React.Component {
   }
 }
 
-class Header extends React.Component {
-  render() {
-    return (
-      <header id="header">
-        <h1><span></span></h1>
-        <FindArticles
-          yearMonth={this.props.yearMonth}
-          handleYMChange={this.props.handleYMChange}
-          handleYMSubmit={this.props.handleYMSubmit}
-        />
-      </header>
-    );
-  }
-}
+const Header = (props) => (
+  <header id="header">
+    <h1><span></span></h1>
+    <FindArticles
+      yearMonth={props.yearMonth}
+      handleYMChange={props.handleYMChange}
+      handleYMSubmit={props.handleYMSubmit}
+    />
+  </header>
+);
 
 class FindArticles extends React.Component {
   constructor(props) {
@@ -256,31 +252,27 @@ class FindArticles extends React.Component {
       </form>
     );
   }
-};
-
-class Articles extends React.Component {
-  render() {
-    return (
-      <aside id="gallery" className="gutters">
-       { 
-          this.props.articlesToShow.map((article) => {
-            const visible = !!Object.keys(this.props.selectedArticle).length && this.props.selectedArticle._id === article._id;
-            return (
-              <Article
-                key={article._id}
-                visible={visible}
-                handleArticleClick={this.props.handleArticleClick}
-                article={article}
-                url={article.web_url}
-                date={article.pub_date}
-              />
-            );
-        })
-        }
-    </aside>
-    );
-  }
 }
+
+const Articles = (props) => (
+  <aside id="gallery" className="gutters">
+    { 
+      props.articlesToShow.map((article) => {
+        const visible = !!Object.keys(props.selectedArticle).length && props.selectedArticle._id === article._id;
+        return (
+          <Article
+            key={article._id}
+            visible={visible}
+            handleArticleClick={props.handleArticleClick}
+            article={article}
+            url={article.web_url}
+            date={article.pub_date}
+          />
+        );
+      })
+    }
+  </aside>
+);
 
 class Article extends React.Component {
   constructor(props) {
@@ -358,41 +350,35 @@ class Article extends React.Component {
   }
 }
 
-class ArticleDetails extends React.Component {
-  render() {
-    const article = this.props.selectedArticle;
-    return (
-      <aside id="details" className="disabled" >
-        <div>
-          <h3>Article Details</h3>
-          {!!Object.keys(article).length &&
-          <ul>
-            <li><span>Source:</span> {article.source}</li>
-            <li><span>Headline:</span> {article.headline.main}</li>
-            <li><span>Snippet:</span> {article.snippet}</li>
-            {
-              !!article.byline &&
-              <li><span>Author:</span> {article.byline.original}</li>
-            }
-            <li><span>Word Count:</span> {article.word_count}</li>
-          </ul>
+const ArticleDetails = (props) => {
+  const article = props.selectedArticle;
+  return (
+    <aside id="details" className="disabled" >
+      <div>
+        <h3>Article Details</h3>
+        {!!Object.keys(article).length &&
+        <ul>
+          <li><span>Source:</span> {article.source}</li>
+          <li><span>Headline:</span> {article.headline.main}</li>
+          <li><span>Snippet:</span> {article.snippet}</li>
+          {
+            !!article.byline &&
+            <li><span>Author:</span> {article.byline.original}</li>
           }
-        </div>
-      </aside>
-    );
-  }
+          <li><span>Word Count:</span> {article.word_count}</li>
+        </ul>
+        }
+      </div>
+    </aside>
+  );
 }
 
-class Footer extends React.Component {
-  render() {
-    return (
-      <footer id="footer">
-        <p>PZORG Demo Project - NYT Explorer</p>
-        <p><span>Created By: </span><span>Marjan Sirovljević</span></p>
-      </footer>
-    );
-  }
-}
+const Footer = (props) => (
+  <footer id="footer">
+    <p>PZORG Demo Project - NYT Explorer</p>
+    <p><span>Created By: </span><span>Marjan Sirovljević</span></p>
+  </footer>
+);
 
 class PageSelect extends React.Component {
   constructor(props) {
@@ -419,15 +405,13 @@ class PageSelect extends React.Component {
   }
 }
 
-class PageInfo extends React.Component {
-  render() {
-    const start = (this.props.pageNumber - 1) * this.props.pageSize + 1;
-    const end = start + this.props.displayedElements - 1;
-    return (
-      <div>Showing <span> {start} - {end} </span> of <span> {this.props.totalArticles} </span>Articles</div>
-    );
-  }
-}
+const PageInfo = (props) => {
+  const start = (props.pageNumber - 1) * props.pageSize + 1;
+  const end = start + props.displayedElements - 1;
+  return (
+    <div>Showing <span> {start} - {end} </span> of <span> {props.totalArticles} </span>Articles</div>
+  );  
+};
 
 class SortBy extends React.Component {
   constructor(props) {
@@ -476,41 +460,33 @@ class Search extends React.Component {
   }
 }
 
-class PageNav extends React.Component {
-  render() {
-    return (
-      <div className="bottom-cell">
-        <div>
-          <Pagers
-            buttonName="&#129060;"
-            handleButtonClick={this.props.handlePrevButtonClick}
-            clickable={this.props.pageNumber > 1}
-          />
-          <Pagers
-            buttonName="&#129062;"
-            handleButtonClick={this.props.handleNextButtonClick}
-            clickable={this.props.pageNumber < this.props.totalPages}
-          />
-        </div>
-        <GoToPage
-          handleGoToPage={this.props.handleGoToPage}
-          totalPages={this.props.totalPages}
-          pageNumber={this.props.pageNumber}
-        />
-      </div>
-    );
-  }
-}
+const PageNav = (props) => (
+  <div className="bottom-cell">
+    <div>
+      <Pagers
+        buttonName="&#129060;"
+        handleButtonClick={props.handlePrevButtonClick}
+        clickable={props.pageNumber > 1}
+      />
+      <Pagers
+        buttonName="&#129062;"
+        handleButtonClick={props.handleNextButtonClick}
+        clickable={props.pageNumber < props.totalPages}
+      />
+    </div>
+    <GoToPage
+      handleGoToPage={props.handleGoToPage}
+      totalPages={props.totalPages}
+      pageNumber={props.pageNumber}
+    />
+  </div>
+);
 
-class Pagers extends React.Component {
-  render() {
-    return(
-      <button onClick={this.props.handleButtonClick} disabled={!this.props.clickable}>
-        {this.props.buttonName}
-      </button>
-    );
-  }
-}
+const Pagers = (props) => (
+  <button onClick={props.handleButtonClick} disabled={!props.clickable}>
+    {props.buttonName}
+  </button>
+);
 
 class GoToPage extends React.Component {
   constructor(props) {
