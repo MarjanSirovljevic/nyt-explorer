@@ -61,10 +61,16 @@ class App extends React.Component {
         />
         <main id="main">
           <section id="top">
-          <PageSelect
-            pageSize={this.state.pageSize}
-            handlePageSizeSelect={this.handlePageSizeSelect}
-          />
+            <PageSelect
+              pageSize={this.state.pageSize}
+              handlePageSizeSelect={this.handlePageSizeSelect}
+            />
+            <PageInfo
+              pageSize={this.state.pageSize}
+              displayedElements={articlesToShow.length}
+              pageNumber={this.state.pageNumber}
+              totalArticles={articles.length}
+            />
           </section>
           <section id="center">
             <Articles
@@ -306,5 +312,16 @@ class PageSelect extends React.Component {
     );
   }
 }
+
+class PageInfo extends React.Component {
+  render() {
+    const start = (this.props.pageNumber - 1) * this.props.pageSize + 1;
+    const end = start + this.props.displayedElements - 1;
+    return (
+      <div>Showing <span> {start} - {end} </span> of <span> {this.props.totalArticles} </span>Articles</div>
+    );
+  }
+}
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
