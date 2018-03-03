@@ -6,12 +6,15 @@ class App extends React.Component {
     this.handleArticleClick = this.handleArticleClick.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
     this.handlePageSizeSelect = this.handlePageSizeSelect.bind(this);
+    this.handleSortByChange = this.handleSortByChange.bind(this);
     const currentDate = new Date();
     this.state = {
       yearMonth: [currentDate.getFullYear(), currentDate.getMonth()],
       fetchedArticles: [],
       pageNumber: 1,
       pageSize: 4,
+      sortBy: 'date',
+      asc: true,
       selectedArticle: {}
     };
   }
@@ -43,13 +46,65 @@ class App extends React.Component {
   handlePageSizeSelect(pageSize) {
     this.setState(() => ({ pageSize, pageNumber: 1 }));
   }
+  handleSortByChange(sortValue) {
+    const sortValueArray = sortValue.split(' ');
+    const sortBy = sortValue.split(' ')[0];
+    const asc = sortValue.split(' ')[1] === 'asc' ? true : false ;
+    this.setState(() => ({ sortBy, asc }));
+  }
   componentDidMount() {
     this.handleYMSubmit();
+  }
+  dateToTimeStamp(dateString) {
+    const timeStamp = new Date(dateString).getTime();
+    return timeStamp;
+  }
+  sortArticles(rawArticles, sortBy, asc) {
+    if(asc && sortBy === 'date') {
+      const articles = rawArticles.sort((a,b) => {
+        return this.dateToTimeStamp(a.pub_date) - this.dateToTimeStamp(b.pub_date);
+      });
+      return articles;
+    }
+    if(!asc && sortBy === 'date') {
+      const articles = rawArticles.sort((a,b) => {
+        return this.dateToTimeStamp(b.pub_date) - this.dateToTimeStamp(a.pub_date);
+      });
+      return articles;
+    }
+    if(asc && sortBy === 'title') {
+      const articles = rawArticles.sort((a,b) => {
+        const title_a = a.headline.main.toUpperCase();
+        const title_b = b.headline.main.toUpperCase();
+        if(title_a < title_b) {
+          return -1;
+        }
+        if(title_a > title_b) {
+          return 1;
+        }
+        return 0;
+      });
+      return articles;
+    }
+    if(!asc && sortBy === 'title') {
+      const articles = rawArticles.sort((a,b) => {
+        const title_a = a.headline.main.toUpperCase();
+        const title_b = b.headline.main.toUpperCase();
+        if(title_a > title_b) {
+          return -1;
+        }
+        if(title_a < title_b) {
+          return 1;
+        }
+        return 0;
+      });
+      return articles;
+    }
   }
   render() {
     const start = (this.state.pageNumber - 1) * this.state.pageSize;
     const end = start + this.state.pageSize;
-    const articles = this.state.fetchedArticles;
+    const articles = this.sortArticles(this.state.fetchedArticles, this.state.sortBy, this.state.asc);
     const totalPages = Math.ceil(articles.length / this.state.pageSize);
     const articlesToShow = articles.slice(start, end);
     const jsxAjax = (
@@ -61,6 +116,11 @@ class App extends React.Component {
         />
         <main id="main">
           <section id="top">
+            <SortBy
+              sortBy={this.state.sortBy}
+              isAsc={this.state.asc}
+              handleSortByChange={this.handleSortByChange}
+            />
             <PageSelect
               pageSize={this.state.pageSize}
               handlePageSizeSelect={this.handlePageSizeSelect}
@@ -92,6 +152,9 @@ class App extends React.Component {
         </div>
       </div>
     );
+
+    articlesToShow.forEach((article) => { console.log(article.pub_date); }); 
+    console.log('===========================================================');
 
     return this.state.fetchedArticles.length > 0 ? jsxAjax : jsxProgress;
   }
@@ -323,5 +386,29 @@ class PageInfo extends React.Component {
   }
 }
 
+class SortBy extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSortByChange = this.handleSortByChange.bind(this);
+  }
+  handleSortByChange(e) {
+    const sortBy = e.target.value;
+    // console.log(sortBy);
+    this.props.handleSortByChange(sortBy);
+  }
+  render() {
+    const sortBy = this.props.sortBy;
+    const asc = this.props.isAsc ? 'asc' : 'desc';
+    const currentValue = `${sortBy} ${asc}`;
+    return (
+      <select className="filter" value={currentValue} onChange={this.handleSortByChange}>
+        <option value="date asc">Date &#129049;</option>
+        <option value="date desc">Date &#129051;</option>
+        <option value="title asc">Title &#129049;</option>
+        <option value="title desc">Title &#129051;</option>
+      </select>
+    );
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
