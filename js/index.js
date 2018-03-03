@@ -42,7 +42,7 @@ class App extends React.Component {
   }
   onSuccess(data) {
     const fetchedArticles = data.response.docs;
-    this.setState(() => ({ fetchedArticles }));
+    this.setState(() => ({ fetchedArticles, pageNumber: 1, searchTerm: '' }));
   }
   onError(error) {
     throw error;
@@ -57,10 +57,10 @@ class App extends React.Component {
     const sortValueArray = sortValue.split(' ');
     const sortBy = sortValue.split(' ')[0];
     const asc = sortValue.split(' ')[1] === 'asc' ? true : false ;
-    this.setState(() => ({ sortBy, asc }));
+    this.setState(() => ({ sortBy, asc, pageNumber: 1 }));
   }
   handleSearchChange(searchTerm) {
-    this.setState(() => ({ searchTerm })); 
+    this.setState(() => ({ searchTerm, pageNumber: 1 })); 
   }
   handlePrevButtonClick() {
     this.setState((prevState) => ({ pageNumber: prevState.pageNumber - 1 }));
@@ -200,9 +200,6 @@ class App extends React.Component {
       </div>
     );
 
-    articlesToShow.forEach((article) => { console.log(article.pub_date); }); 
-    console.log('===========================================================');
-
     return this.state.fetchedArticles.length > 0 ? jsxAjax : jsxProgress;
   }
 }
@@ -230,7 +227,6 @@ class FindArticles extends React.Component {
   }
   handleYMChange(e) {
     const yearMonthStr = e.target.value;
-    console.log(!!yearMonthStr);
     if( !!yearMonthStr) {
       this.props.handleYMChange(yearMonthStr);
     }
@@ -440,7 +436,6 @@ class SortBy extends React.Component {
   }
   handleSortByChange(e) {
     const sortBy = e.target.value;
-    // console.log(sortBy);
     this.props.handleSortByChange(sortBy);
   }
   render() {
