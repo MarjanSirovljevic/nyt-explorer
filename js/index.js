@@ -125,22 +125,26 @@ class App extends React.Component {
         />
         <main id="main">
           <section id="top">
-            <SortBy
-              sortBy={this.state.sortBy}
-              isAsc={this.state.asc}
-              handleSortByChange={this.handleSortByChange}
-            />
-            <Search handleSearchChange={this.handleSearchChange} />
-            <PageSelect
-              pageSize={this.state.pageSize}
-              handlePageSizeSelect={this.handlePageSizeSelect}
-            />
-            <PageInfo
-              pageSize={this.state.pageSize}
-              displayedElements={articlesToShow.length}
-              pageNumber={this.state.pageNumber}
-              totalArticles={articles.length}
-            />
+            <div className="top-cell">
+              <Search handleSearchChange={this.handleSearchChange} />
+              <SortBy
+                sortBy={this.state.sortBy}
+                isAsc={this.state.asc}
+                handleSortByChange={this.handleSortByChange}
+              />
+            </div>
+            <div className="top-cell">
+              <PageSelect
+                pageSize={this.state.pageSize}
+                handlePageSizeSelect={this.handlePageSizeSelect}
+              />
+              <PageInfo
+                pageSize={this.state.pageSize}
+                displayedElements={articlesToShow.length}
+                pageNumber={this.state.pageNumber}
+                totalArticles={articles.length}
+              />
+            </div>
           </section>
           <section id="center">
             <Articles
