@@ -42,7 +42,7 @@ class App extends React.Component {
   }
   onSuccess(data) {
     const fetchedArticles = data.response.docs;
-    this.setState(() => ({ fetchedArticles, pageNumber: 1 }));
+    this.setState(() => ({ fetchedArticles, pageNumber: 1, selectedArticle: {} }));
   }
   onError(error) {
     throw error;
@@ -51,25 +51,25 @@ class App extends React.Component {
     this.setState(() => ({ selectedArticle }));
   }
   handlePageSizeSelect(pageSize) {
-    this.setState(() => ({ pageSize, pageNumber: 1 }));
+    this.setState(() => ({ pageSize, pageNumber: 1, selectedArticle: {} }));
   }
   handleSortByChange(sortValue) {
     const sortValueArray = sortValue.split(' ');
     const sortBy = sortValue.split(' ')[0];
     const asc = sortValue.split(' ')[1] === 'asc' ? true : false ;
-    this.setState(() => ({ sortBy, asc, pageNumber: 1 }));
+    this.setState(() => ({ sortBy, asc, pageNumber: 1, selectedArticle: {} }));
   }
   handleSearchChange(searchTerm) {
-    this.setState(() => ({ searchTerm, pageNumber: 1 })); 
+    this.setState(() => ({ searchTerm, pageNumber: 1, selectedArticle: {} })); 
   }
   handlePrevButtonClick() {
-    this.setState((prevState) => ({ pageNumber: prevState.pageNumber - 1 }));
+    this.setState((prevState) => ({ pageNumber: prevState.pageNumber - 1, selectedArticle: {} }));
   }
   handleNextButtonClick() {
-    this.setState((prevState) => ({ pageNumber: prevState.pageNumber + 1 }));
+    this.setState((prevState) => ({ pageNumber: prevState.pageNumber + 1, selectedArticle: {} }));
   }
   handleGoToPage(pageNumber) {
-    this.setState(() => ({ pageNumber }));
+    this.setState(() => ({ pageNumber, selectedArticle: {} }));
   }
   componentDidMount() {
     this.handleYMSubmit();
