@@ -167,6 +167,18 @@ class App extends React.Component {
             <ArticleDetails selectedArticle={this.state.selectedArticle} />
           </section>
           <section id="bottom">
+            <div className="bottom-cell">
+              <PageSelect
+                pageSize={this.state.pageSize}
+                handlePageSizeSelect={this.handlePageSizeSelect}
+              />
+              <PageInfo
+                pageSize={this.state.pageSize}
+                displayedElements={articlesToShow.length}
+                pageNumber={this.state.pageNumber}
+                totalArticles={articles.length}
+              />
+            </div>
             <PageNav
               pageNumber={this.state.pageNumber}
               totalPages={totalPages}
@@ -175,7 +187,7 @@ class App extends React.Component {
               handleGoToPage={this.handleGoToPage}
               totalArticles={articles.length}
             />
-          </section>        
+          </section>       
         </main>
         <Footer />
       </div>
