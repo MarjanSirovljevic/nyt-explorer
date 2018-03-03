@@ -42,7 +42,7 @@ class App extends React.Component {
   }
   onSuccess(data) {
     const fetchedArticles = data.response.docs;
-    this.setState(() => ({ fetchedArticles, pageNumber: 1, searchTerm: '' }));
+    this.setState(() => ({ fetchedArticles, pageNumber: 1 }));
   }
   onError(error) {
     throw error;
