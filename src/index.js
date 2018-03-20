@@ -1,3 +1,10 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
+
+import './index.css';
+
+
 let timeout = null;
 
 class App extends React.Component {
@@ -195,7 +202,7 @@ class App extends React.Component {
     const jsxProgress = (
       <div id="page">
         <div id="progress">
-          <img src="./images/loader.gif" />
+          <img src="./loader.gif" />
         </div>
       </div>
     );
