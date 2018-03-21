@@ -1,0 +1,8 @@
+/* ===================================( P R O G R E S S )======================================= */
+
+#progress {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}

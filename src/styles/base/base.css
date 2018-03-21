@@ -1,0 +1,29 @@
+/* ======================================( G E N E R A L )====================================== */
+
+* { box-sizing: border-box; }
+
+body {
+  background: #ebebeb;
+  margin: 0;
+}
+
+#page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+button, input[type="submit"] {
+  background: black;
+  border: none;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+button:hover, input[type="submit"]:hover {
+  cursor: pointer;
+}
+
+button:disabled, input[type="submit"]:disabled {
+  cursor: default; opacity: 0.25;
+}

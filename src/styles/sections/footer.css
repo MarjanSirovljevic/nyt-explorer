@@ -1,0 +1,23 @@
+/* ======================================( F O O T E R )======================================== */
+
+#footer {
+  border-top: 1px solid #cdcdcd;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+#footer > p { margin: 0; }
+#footer > p > span:nth-child(2) { font-weight: 600; color: #49c5b6; }
+
+/* medium devices */
+@media (min-width: 768px) {
+  #footer { width: 720px; margin: 0 auto; }
+}
+/* large devices */
+@media (min-width: 992px) {
+  #footer { width: 960px; margin: 0 auto; }
+}
+/* extra large devices */
+@media (min-width: 1200px) {
+  #footer { width: 1140px; margin: 0 auto; }  
+}

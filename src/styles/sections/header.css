@@ -1,0 +1,53 @@
+/* ======================================( H E A D E R )======================================== */
+
+#header {
+  flex: 0 1 0%;
+  border-bottom: 1px solid #cdcdcd;
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  justify-content: space-between;
+  padding: 6px 10px;
+}
+#header > h1 { flex: 1; margin: 0; }
+#header > h1 > span::after { font-family: 'Tinos', serif; content: "NYTE"; }
+#header > .header-form {
+  align-items: center;
+  display: flex;
+  flex: 0 1 250px;
+  justify-content: center;
+  padding: 4px 0 4px 4px;
+}
+#header > .header-form > input[type="month"] {
+  flex: 1;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  margin-right: 5px;
+  padding-right: 5px;
+  text-align: center;
+}
+/* Removes the clear button from date inputs */
+#header > .header-form > input[type="month"]::-webkit-clear-button { display: none; }
+/* Removes the spin button */
+#header > .header-form > input[type="month"]::-webkit-inner-spin-button { display: none; }
+#header > .header-form > input[type="submit"] { flex: 0 0 80px; height: 100%; }
+
+/* small devices */
+@media (min-width: 576px) {
+  #header > .header-form { flex: 0 1 320px; }
+}
+
+/* medium devices */
+@media (min-width: 768px) {
+  #header { width: 720px; margin: 0 auto; }
+  #header > h1 > span::after { content: "NY Times Explorer"; }
+}
+
+/* large devices */
+@media (min-width: 992px) {
+  #header { width: 960px; margin: 0 auto; }
+}
+
+/* extra large devices */
+@media (min-width: 1200px) {
+  #header { width: 1140px; margin: 0 auto; }
+}

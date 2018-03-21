@@ -1,0 +1,30 @@
+/* ===========( main - CENTER/DETAILS )========== */
+
+#details {
+  background: #fcfcfc;
+  box-shadow: 0 0 5px rgba(150,150,150,0.5);
+  flex: 0 1 25%;
+  font-family: 'Roboto', sans-serif; 
+  overflow: auto;
+  padding: 10px;
+  text-align: left;
+  white-space: wrap;
+}
+
+#details > div { font-size: 14px; }
+#details > div > h3 { margin: 0; padding: 15px 0; }
+.disabled { display: none; }
+#details > div > ul { list-style-type: none; margin: 0; padding: 0; }
+#details > div > ul > li { padding: 5px 0; }
+#details > div > ul > li > span { color: #49c5b6; font-weight: 700; }
+
+/* medium devices */
+@media (min-width: 768px) {
+  .disabled { display: flex; }
+  #details { flex: 0 1 240px; }
+}
+/* standard desktop devices */
+@media (min-height: 650px) {
+  #details > div { font-size: 16px; }
+}
+
